@@ -22,8 +22,8 @@ class Board
 
         bool occupied(int,int);
         bool canmove(Player,int,int);
-        void move(Player,int,int);
-        void shoot(Player,int,int);
+        void move(Player&,int,int);
+        void shoot(Player&,int,int);
         void initializeboard();
         void setstartingpositions();
         void printboard();
@@ -122,6 +122,7 @@ void Board::printboard(){
         }
         std::cout<<"\n";
     }
+    std::cout<<"\n";
 }
 
 std::vector<std::vector<int>> Board::listmoves(Player p){
@@ -136,7 +137,7 @@ std::vector<std::vector<int>> Board::listmoves(Player p){
     return moves;
 }
 
-void Board::move(Player p,int r,int c){
+void Board::move(Player &p,int r,int c){
     if(canmove(p,r,c)){
         board[p.r][p.c] = 0;
         p.updatepos(r,c);
@@ -144,7 +145,7 @@ void Board::move(Player p,int r,int c){
     }
 }
 
-void Board::shoot(Player p,int r,int c){
+void Board::shoot(Player &p,int r,int c){
     if(canmove(p,r,c)){
         board[r][c] = 2;
     }

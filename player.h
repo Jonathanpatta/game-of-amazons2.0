@@ -26,6 +26,6 @@ void Player::printpos(){
 }
 
 void Player::updatepos(int r_,int c_){
-    r=r_;
-    c=c_;
+    this->r=r_;
+    this->c=c_;
 }

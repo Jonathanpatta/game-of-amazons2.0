@@ -5,8 +5,7 @@
 
 int main()
 {
-    Board board(8);
-
-    Game g(10);
+    Game g(6);
     g.begin();
+    
 }

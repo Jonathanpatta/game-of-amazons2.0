@@ -44,7 +44,7 @@ bool Game::isgameend(){
 void Game::takehumaninput(std::vector<std::vector<int>> moves,int &row,int &col)
 {
     std::cout<<"list of moves for player:\n";
-    for(int i=0; i<board.size; i++){
+    for(int i=0; i<moves.size(); i++){
         std::cout<<"("<< moves[i][0] <<","<< moves[i][1]<<")\n";
     }
     printf("enter row and column in format(row,col) : ");
@@ -63,11 +63,20 @@ void Game::move(int turn)
             auto moves = board.listmoves(board.p11);
             takehumaninput(moves,row,col);
             board.move(board.p11,row,col);
+            board.p11.printpos();
+            board.printboard();
+            auto shootmoves = board.listmoves(board.p11);
+            takehumaninput(shootmoves,row,col);
+            board.shoot(board.p11,row,col);
         }
         else{
             auto moves = board.listmoves(board.p12);
             takehumaninput(moves,row,col);
-            board.move(board.p12,row,col);    
+            board.move(board.p12,row,col);
+            board.printboard();
+            auto shootmoves = board.listmoves(board.p12);
+            takehumaninput(shootmoves,row,col); 
+            board.shoot(board.p12,row,col);
         }        
     }
     else
@@ -80,11 +89,19 @@ void Game::move(int turn)
             auto moves = board.listmoves(board.p21);
             takehumaninput(moves,row,col);
             board.move(board.p21,row,col);
+            board.printboard();
+            auto shootmoves = board.listmoves(board.p21);
+            takehumaninput(shootmoves,row,col);
+            board.shoot(board.p21,row,col);
         }
         else{
             auto moves = board.listmoves(board.p22);
             takehumaninput(moves,row,col);
-            board.move(board.p22,row,col);    
+            board.move(board.p22,row,col);
+            board.printboard();
+            auto shootmoves = board.listmoves(board.p22);
+            takehumaninput(shootmoves,row,col);
+            board.shoot(board.p22,row,col);
         }
     }
     
