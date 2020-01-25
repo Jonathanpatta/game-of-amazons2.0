@@ -62,34 +62,33 @@ void Board::setstartingpositions()
         p11.r+=1;
     p11.c=0;
     board[p11.r][p11.c] = 1;
+    p11.tile=1;
 
     p12.r=size/2;
     p12.c=size-1;
-    board[p12.r][p12.c] = 1;
+    board[p12.r][p12.c] = 2;
+    p12.tile=2;
 
     p21.r=0;
     p21.c=size/2;
-    board[p21.r][p21.c] = 1;
+    board[p21.r][p21.c] = 3;
+    p21.tile=3;
 
     p22.r=size-1;
     p22.c=size/2-1;
     if(size%2==1)
         p22.c+=1;
-    board[p22.r][p22.c] = 1;
+    board[p22.r][p22.c] = 4;
+    p22.tile=4;
 
-    /*
-    p11.printpos();
-    p12.printpos();
-    p21.printpos();
-    p22.printpos();
-    */
 }
 
 bool Board::occupied(int r,int c)
 {
-    if((r<0 || c<0 || r>=size || c>=size) && (r!=0 || c!=0))
+    if(r<0 || c<0 || r>=size || c>=size)
         return true;
-
+    if(this->board[r][c]!=0)
+        return true;
     return false;
 }
 
@@ -99,18 +98,23 @@ bool Board::canmove(Player p,int r_,int c_){
 
     if(p.r==r_ && p.c==c_)
         return false;
-
     for(int i=0;i<8;i++){
         int r=r_;
         int c=c_;
-        while(!occupied(r,c)){
-            if(p.r==r && p.c==c)
+        
+        while(!occupied(r,c))
+        {
+            //cannot directly check r & c as they are occupied
+            /*if(p.r==r+direction[i][0] && p.c==c+direction[i][1]){
                 return true;
+            }*/
             r+=direction[i][0];
-            c+=direction[i][1];
+            c+=direction[i][1]; 
+            if(p.r==r && p.c==c){
+                return true;
+            }           
         }
     }
-
     return false;
 }
 
@@ -141,12 +145,12 @@ void Board::move(Player &p,int r,int c){
     if(canmove(p,r,c)){
         board[p.r][p.c] = 0;
         p.updatepos(r,c);
-        board[r][c] = 1;
+        board[r][c] = p.tile;
     }
 }
 
 void Board::shoot(Player &p,int r,int c){
     if(canmove(p,r,c)){
-        board[r][c] = 2;
+        board[r][c] = 9;
     }
 }
