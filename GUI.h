@@ -14,6 +14,7 @@ class GUIgame : public Game
         int selected;
         bool shoot;
         sf::Font font;
+        sf::Texture whitetile;
         std::vector<std::vector<sf::RectangleShape>> gboard;
 
         
@@ -41,6 +42,9 @@ GUIgame::GUIgame()
     if(!font.loadFromFile("C:\\Users\\Jonathan\\Documents\\random programs\\gitgoa\\game-of-amazons2.0\\textures\\fonts\\OpenSans-Bold.ttf")){
         printf("failed to load text file");
     }
+    if(!whitetile.loadFromFile("C:\\Users\\Jonathan\\Documents\\random programs\\gitgoa\\game-of-amazons2.0\\textures\\tiles\\white_tile.jpg")){
+        printf("failed to load white tile");
+    }
     gameloop();
 }
 
@@ -56,6 +60,7 @@ void GUIgame::createboard()
             //rect.setFillColor(sf::Color::White);
             if(board.board[i][j]==0){
                 rect.setFillColor(sf::Color::White);
+                //rect.setTexture(&whitetile);
             }
             if(board.board[i][j]==1 || board.board[i][j]==2){
                 rect.setFillColor(sf::Color::Blue);
@@ -93,7 +98,7 @@ void GUIgame::movepaint(int p,std::vector<std::vector<std::vector<int>>> &t)
 {
     for(int i=0;i<t.size();i++){
         for(int j=0;j<t[i].size();j++){
-            gboard[ t[i][j][0] ][ t[i][j][1] ].setFillColor(sf::Color::White);
+            gboard[ t[i][j][0] ][ t[i][j][1] ].setFillColor(sf::Color::White);//.setTexture(&whitetile);
         }
     }
 
@@ -112,7 +117,7 @@ void GUIgame::addarrow(Player &p,int i, int j)
         for (int i=0;i<board.size;i++){
             for(int j=0;j<board.size;j++){
                 if(board.board[i][j]==0){
-                    gboard[i][j].setFillColor(sf::Color::White);
+                    gboard[i][j].setFillColor(sf::Color::White);//.setTexture(&whitetile);//.setFillColor(sf::Color::White);
                 }
             }
         }
@@ -130,11 +135,11 @@ void GUIgame::moveplayer(Player &p,int i,int j,std::vector<std::vector<std::vect
         for (int i=0;i<board.size;i++){
             for(int j=0;j<board.size;j++){
                 if(board.board[i][j]==0){
-                    gboard[i][j].setFillColor(sf::Color::White);
+                    gboard[i][j].setFillColor(sf::Color::White);//.setTexture(&whitetile);//.setFillColor(sf::Color::White);
                 }
             }
         }
-        gboard[p.r][p.c].setFillColor(sf::Color::White);
+        gboard[p.r][p.c].setFillColor(sf::Color::White);//.setTexture(&whitetile);//.setFillColor(sf::Color::White);
         board.move(p,i,j);
         t[p.tile-1]=board.listmoves(p);
         movepaint(p.tile-1,t);
@@ -177,11 +182,11 @@ void GUIgame::handlemouseclick(int i, int j)
                 }
             }
             else{
-                if (board.p11.ispos(i,j)){
+                if (board.p11.ispos(i,j) && t[0].size()!=0){
                     movepaint(0,t);
                     selected = 1;
                 }
-                if (board.p12.ispos(i,j)){
+                if (board.p12.ispos(i,j) && t[1].size()!=0){
                     movepaint(1,t);
                     selected = 2;
                 }
@@ -235,11 +240,11 @@ void GUIgame::handlemouseclick(int i, int j)
                 }
             }
             else{
-                if (board.p21.ispos(i,j)){
+                if (board.p21.ispos(i,j) && t[2].size()!=0){
                     movepaint(2,t);
                     selected = 3;
                 }
-                if (board.p22.ispos(i,j)){
+                if (board.p22.ispos(i,j) && t[3].size()!=0){
                     movepaint(3,t);
                     selected = 4;
                 }
@@ -284,7 +289,7 @@ void GUIgame::gameloop()
     sf::RenderWindow window(sf::VideoMode(screenheight,screenwidth),"game of amazons!");    
     window.setFramerateLimit(framerate);
     createboard();
-    while(window.isOpen() && !isgameend())
+    while(window.isOpen())
     {
         //Timer timer;
         sf::Event event;
@@ -300,11 +305,24 @@ void GUIgame::gameloop()
                 int j = (int) x*board.size/screenwidth;
                 int i = (int) y*board.size/screenheight;
                 handlemouseclick(i,j);
-                board.printboard();
-                printf("\n\n");
             }
         }
         drawboard(window);
+        if(isgameend()){
+            sf::Text text;
+            text.setFont(font);
+            text.setPosition(0,0);
+            text.setCharacterSize(72);
+            if(board.listmoves(board.p11).size()==0&&board.listmoves(board.p12).size()==0){
+                text.setString("Player2 won!!");
+                text.setFillColor(sf::Color::Red);
+            }
+            else{
+                text.setString("Player1 won!!");
+                text.setFillColor(sf::Color::Blue);            
+            }
+            window.draw(text);
+        }
         window.display();
 
     }
