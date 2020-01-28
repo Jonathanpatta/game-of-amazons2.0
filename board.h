@@ -80,6 +80,12 @@ void Board::setstartingpositions()
         p22.c+=1;
     board[p22.r][p22.c] = 4;
     p22.tile=4;
+    /*
+    p11.printpos();
+    p12.printpos();
+    p21.printpos();
+    p22.printpos();
+    */
 
 }
 
@@ -104,10 +110,6 @@ bool Board::canmove(Player p,int r_,int c_){
         
         while(!occupied(r,c))
         {
-            //cannot directly check r & c as they are occupied
-            /*if(p.r==r+direction[i][0] && p.c==c+direction[i][1]){
-                return true;
-            }*/
             r+=direction[i][0];
             c+=direction[i][1]; 
             if(p.r==r && p.c==c){

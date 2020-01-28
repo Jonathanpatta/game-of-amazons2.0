@@ -1,14 +1,17 @@
 #include <iostream>
 #include "board.h"
 #include "game.h"
+#include "GUI.h"
+
+//#include<SFML/Graphics.hpp>
 
 
 int main()
 {
-    Game g(6);
-    g.begin();
+    /*Game g(6);
+    g.begin();*/
 
-    /*Board b(6);
-    auto p = b.listmoves(b.p11);*/
+    GUIgame g;
+    //g.gameloop();
     
 }

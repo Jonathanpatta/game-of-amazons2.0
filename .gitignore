@@ -1,2 +1,5 @@
 bin
 *.exe
+*.dll
+dependencies
+textures

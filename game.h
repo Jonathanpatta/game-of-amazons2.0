@@ -33,10 +33,14 @@ bool Game::isgameend(){
     auto t3 = board.listmoves(board.p11);
     auto t4 = board.listmoves(board.p12);
 
-    if(t1.size()==0 && t2.size()==0)
+    if(t1.size()==0 && t2.size()==0){
+        printf("gameover\n");
         return true;
-    if(t3.size()==0 && t4.size()==0)
+    }
+    if(t3.size()==0 && t4.size()==0){
+        printf("gameover\n");
         return true;
+    }
     
     return false;
 }
